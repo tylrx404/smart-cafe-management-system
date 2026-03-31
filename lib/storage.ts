@@ -117,7 +117,15 @@ export async function getEcoScore(): Promise<EcoScore> {
   try {
     const res = await fetch(`${BACKEND_URL}/data/eco-score`, fetchConfig)
     if (!res.ok) throw new Error()
-    return await res.json()
+    const data = await res.json()
+    return {
+      waterCredit: data.water_credit || 0,
+      energyCredit: data.energy_credit || 0,
+      transportCredit: data.transport_credit || 0,
+      wasteCredit: data.waste_credit || 0,
+      totalScore: data.total_score || 0,
+      debt: data.debt || 0
+    }
   } catch {
     return { waterCredit: 0, energyCredit: 0, transportCredit: 0, wasteCredit: 0, totalScore: 0, debt: 0 }
   }
@@ -128,7 +136,14 @@ export async function updateEcoScore(score: EcoScore): Promise<void> {
     await fetch(`${BACKEND_URL}/data/eco-score`, {
       ...fetchConfig,
       method: "POST",
-      body: JSON.stringify(score),
+      body: JSON.stringify({
+        water_credit: score.waterCredit,
+        energy_credit: score.energyCredit,
+        transport_credit: score.transportCredit,
+        waste_credit: score.wasteCredit,
+        total_score: score.totalScore,
+        debt: score.debt
+      }),
     })
   } catch (e) {
     console.error(e)
