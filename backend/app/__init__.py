@@ -1,0 +1,1 @@
+# EcoPulse FastAPI Application Package

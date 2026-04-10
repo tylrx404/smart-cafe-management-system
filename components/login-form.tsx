@@ -38,28 +38,51 @@ export function LoginForm() {
 
     setLoading(true)
 
-    let success = false
-    if (isLogin) {
-      success = await loginUser({ email, password })
-    } else {
-      success = await registerUser({
-        email,
-        password,
-        city: city!.name,
-        state: city!.state,
-        lat: city!.lat,
-        lon: city!.lon,
-        role: role,
-      })
+    let response;
+
+    try {
+      if (isLogin) {
+        response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+      } else {
+        response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            city: city!.name,
+            state: city!.state,
+            lat: city!.lat,
+            lon: city!.lon,
+            role: role,
+          }),
+        });
+      }
+
+      const data = await response.json();
+
+      console.log("🔥 BACKEND RESPONSE:", data);
+
+      if (response.ok) {
+        router.push("/dashboard");
+      } else {
+        setError(data.detail || "Something went wrong");
+      }
+
+    } catch (err) {
+      console.error("ERROR:", err);
+      setError("Server not reachable");
     }
 
     setLoading(false)
-
-    if (success) {
-      router.push("/dashboard")
-    } else {
-      setError(isLogin ? "Login failed. Check your password or try again." : "Registration failed. Email might be taken.")
-    }
   }
 
   return (
