@@ -26,19 +26,19 @@ function linearInterp(c: number, cLow: number, cHigh: number, iLow: number, iHig
 }
 
 function aqiForPM25(c: number): number {
-  if (c <= 0)   return 0
-  if (c <= 30)  return linearInterp(c,   0,  30,   0,  50)
-  if (c <= 60)  return linearInterp(c,  31,  60,  51, 100)
-  if (c <= 90)  return linearInterp(c,  61,  90, 101, 200)
-  if (c <= 120) return linearInterp(c,  91, 120, 201, 300)
+  if (c <= 0) return 0
+  if (c <= 30) return linearInterp(c, 0, 30, 0, 50)
+  if (c <= 60) return linearInterp(c, 31, 60, 51, 100)
+  if (c <= 90) return linearInterp(c, 61, 90, 101, 200)
+  if (c <= 120) return linearInterp(c, 91, 120, 201, 300)
   if (c <= 250) return linearInterp(c, 121, 250, 301, 400)
   return Math.min(500, linearInterp(c, 251, 500, 401, 500))
 }
 
 function aqiForPM10(c: number): number {
-  if (c <= 0)   return 0
-  if (c <= 50)  return linearInterp(c,   0,  50,   0,  50)
-  if (c <= 100) return linearInterp(c,  51, 100,  51, 100)
+  if (c <= 0) return 0
+  if (c <= 50) return linearInterp(c, 0, 50, 0, 50)
+  if (c <= 100) return linearInterp(c, 51, 100, 51, 100)
   if (c <= 250) return linearInterp(c, 101, 250, 101, 200)
   if (c <= 350) return linearInterp(c, 251, 350, 201, 300)
   if (c <= 430) return linearInterp(c, 351, 430, 301, 400)
@@ -47,10 +47,10 @@ function aqiForPM10(c: number): number {
 
 function aqiForNO2(c: number): number {
   // µg/m³
-  if (c <= 0)   return 0
-  if (c <= 40)  return linearInterp(c,   0,  40,   0,  50)
-  if (c <= 80)  return linearInterp(c,  41,  80,  51, 100)
-  if (c <= 180) return linearInterp(c,  81, 180, 101, 200)
+  if (c <= 0) return 0
+  if (c <= 40) return linearInterp(c, 0, 40, 0, 50)
+  if (c <= 80) return linearInterp(c, 41, 80, 51, 100)
+  if (c <= 180) return linearInterp(c, 81, 180, 101, 200)
   if (c <= 280) return linearInterp(c, 181, 280, 201, 300)
   if (c <= 400) return linearInterp(c, 281, 400, 301, 400)
   return Math.min(500, linearInterp(c, 401, 600, 401, 500))
@@ -58,20 +58,20 @@ function aqiForNO2(c: number): number {
 
 function aqiForSO2(c: number): number {
   // µg/m³
-  if (c <= 0)   return 0
-  if (c <= 40)  return linearInterp(c,   0,  40,   0,  50)
-  if (c <= 80)  return linearInterp(c,  41,  80,  51, 100)
-  if (c <= 380) return linearInterp(c,  81, 380, 101, 200)
+  if (c <= 0) return 0
+  if (c <= 40) return linearInterp(c, 0, 40, 0, 50)
+  if (c <= 80) return linearInterp(c, 41, 80, 51, 100)
+  if (c <= 380) return linearInterp(c, 81, 380, 101, 200)
   if (c <= 800) return linearInterp(c, 381, 800, 201, 300)
-  if (c <= 1600)return linearInterp(c, 801, 1600, 301, 400)
+  if (c <= 1600) return linearInterp(c, 801, 1600, 301, 400)
   return Math.min(500, linearInterp(c, 1601, 2100, 401, 500))
 }
 
 function aqiForO3(c: number): number {
   // µg/m³
-  if (c <= 0)   return 0
-  if (c <= 50)  return linearInterp(c,   0,  50,   0,  50)
-  if (c <= 100) return linearInterp(c,  51, 100,  51, 100)
+  if (c <= 0) return 0
+  if (c <= 50) return linearInterp(c, 0, 50, 0, 50)
+  if (c <= 100) return linearInterp(c, 51, 100, 51, 100)
   if (c <= 168) return linearInterp(c, 101, 168, 101, 200)
   if (c <= 208) return linearInterp(c, 169, 208, 201, 300)
   if (c <= 748) return linearInterp(c, 209, 748, 301, 400)
@@ -81,9 +81,9 @@ function aqiForO3(c: number): number {
 function aqiForCO(c: number): number {
   // mg/m³ (OpenWeather gives µg/m³ for CO, divide by 1000)
   const cmg = c / 1000
-  if (cmg <= 0)    return 0
-  if (cmg <= 1.0)  return linearInterp(cmg, 0,  1.0,   0,  50)
-  if (cmg <= 2.0)  return linearInterp(cmg, 1.1, 2.0,  51, 100)
+  if (cmg <= 0) return 0
+  if (cmg <= 1.0) return linearInterp(cmg, 0, 1.0, 0, 50)
+  if (cmg <= 2.0) return linearInterp(cmg, 1.1, 2.0, 51, 100)
   if (cmg <= 10.0) return linearInterp(cmg, 2.1, 10.0, 101, 200)
   if (cmg <= 17.0) return linearInterp(cmg, 10.1, 17.0, 201, 300)
   if (cmg <= 34.0) return linearInterp(cmg, 17.1, 34.0, 301, 400)
@@ -186,11 +186,11 @@ export async function getWeatherData(lat: number, lon: number): Promise<WeatherD
       const aqiComponents = aqiData.list?.[0]?.components || {}
       const aqi = calculateIndianAQI({
         pm2_5: aqiComponents.pm2_5 || 0,
-        pm10:  aqiComponents.pm10  || 0,
-        no2:   aqiComponents.no2   || 0,
-        so2:   aqiComponents.so2   || 0,
-        o3:    aqiComponents.o3    || 0,
-        co:    aqiComponents.co    || 0,
+        pm10: aqiComponents.pm10 || 0,
+        no2: aqiComponents.no2 || 0,
+        so2: aqiComponents.so2 || 0,
+        o3: aqiComponents.o3 || 0,
+        co: aqiComponents.co || 0,
       })
 
       // Estimate UV from cloud cover (simplified)
@@ -230,13 +230,13 @@ async function getWeatherDataFromOpenMeteo(lat: number, lon: number): Promise<We
     const data = await weatherResponse.json()
     const aqiData = await aqiResponse.json()
 
-    const pm25      = aqiData.current?.pm2_5 || 0
+    const pm25 = aqiData.current?.pm2_5 || 0
     // Open-Meteo air quality supports additional pollutants
-    const pm10      = (aqiData.current as any)?.pm10  || pm25 * 1.7
-    const no2       = (aqiData.current as any)?.nitrogen_dioxide || 30
-    const so2       = (aqiData.current as any)?.sulphur_dioxide  || 15
-    const o3        = (aqiData.current as any)?.ozone            || 40
-    const co        = (aqiData.current as any)?.carbon_monoxide  || 800
+    const pm10 = (aqiData.current as any)?.pm10 || pm25 * 1.7
+    const no2 = (aqiData.current as any)?.nitrogen_dioxide || 30
+    const so2 = (aqiData.current as any)?.sulphur_dioxide || 15
+    const o3 = (aqiData.current as any)?.ozone || 40
+    const co = (aqiData.current as any)?.carbon_monoxide || 800
     const aqi = calculateIndianAQI({ pm2_5: pm25, pm10, no2, so2, o3, co })
 
     return {
@@ -288,11 +288,11 @@ export async function getForecast(lat: number, lon: number): Promise<ForecastDay
         // Use PM2.5 as primary; estimate other pollutants proportionally as fallback
         dailyAqi.push(calculateIndianAQI({
           pm2_5: avgPm25,
-          pm10:  avgPm25 * 1.7,
-          no2:   30,
-          so2:   15,
-          o3:    40,
-          co:    800,
+          pm10: avgPm25 * 1.7,
+          no2: 30,
+          so2: 15,
+          o3: 40,
+          co: 800,
         }))
       }
     }
@@ -323,4 +323,87 @@ function getWeatherCondition(code: number): string {
   if (code <= 79) return "Snowy"
   if (code <= 99) return "Stormy"
   return "Clear"
+}
+// ─────────────────────────────────────────────────────────────────────────────
+// EcoPulse Backend API helpers
+// Base URL comes from .env.local on localhost and Vercel env vars in production.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { getToken } from "./auth"
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://ecopluse-1.onrender.com"
+
+/**
+ * Generic backend request helper.
+ * Automatically attaches Authorization: Bearer <token> if a token exists.
+ * Throws an Error with the backend's `detail` message on non-2xx responses.
+ */
+export async function apiRequest<T = unknown>(
+  endpoint: string,
+  method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
+  body?: unknown,
+  tokenOverride?: string,
+): Promise<T> {
+  const token = tokenOverride ?? getToken()
+
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    method,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  })
+
+  // Try to parse JSON; fall back to text for error messages
+  let data: any
+  try {
+    data = await res.json()
+  } catch {
+    data = { detail: await res.text() }
+  }
+
+  if (!res.ok) {
+    throw new Error(data?.detail ?? `Request failed with status ${res.status}`)
+  }
+
+  return data as T
+}
+
+// ── Example integration: AQI forecast ────────────────────────────────────────
+
+export interface AQIRequestPayload {
+  temperature: number
+  humidity: number
+  wind_speed: number
+  pm25: number
+  pm10: number
+  co: number
+  no2: number
+  so2: number
+  o3: number
+}
+
+export interface AQIForecastPoint {
+  hours: number
+  aqi: number
+  category: string
+  color: string
+}
+
+export interface AQIPredictionResponse {
+  forecast: AQIForecastPoint[]
+  current_aqi: number
+  current_category: string
+}
+
+/**
+ * Call POST /predict/aqi on the Render backend.
+ * Uses apiRequest so the Bearer token is automatically attached.
+ */
+export async function predictAqi(
+  payload: AQIRequestPayload,
+): Promise<AQIPredictionResponse> {
+  return apiRequest<AQIPredictionResponse>("/predict/aqi", "POST", payload)
 }

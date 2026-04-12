@@ -1,15 +1,26 @@
 import type { User, DailyInput, EcoScore, Badge, WasteDecision, DailyGreenIndex } from "./types"
 import { ENTRY_LOCK_DURATION } from "./config"
 import { calculateDailyGreenIndex } from "./calculations"
+import { getToken, saveToken, removeToken, saveUser } from "./auth"
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || (typeof window !== "undefined" ? `http://${window.location.hostname}:8000` : "http://localhost:8000")
+// Single source of truth — set in .env.local and Vercel env variables
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "https://ecopluse-1.onrender.com"
+
+/** Build headers, attaching Bearer token when available */
+function getAuthHeaders(): HeadersInit {
+  const token = getToken()
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  }
+}
 
 const fetchConfig: RequestInit = {
   credentials: "include",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: getAuthHeaders(),
 }
+
+
 
 export async function getUser(): Promise<User | null> {
   if (typeof window === "undefined") return null
@@ -45,10 +56,19 @@ export function clearUserLocally(): void {
 
 export async function logoutUser(): Promise<void> {
   try {
-    await fetch(`${BACKEND_URL}/auth/logout`, { ...fetchConfig, method: "POST" })
+    const token = getToken()
+    await fetch(`${BACKEND_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    })
   } catch (e) {
     console.error(e)
   }
+  removeToken()
   clearUserLocally()
 }
 
@@ -228,30 +248,63 @@ export async function saveDailyGreenIndex(index: DailyGreenIndex): Promise<void>
   }
 }
 
-export async function registerUser(user: any): Promise<boolean> {
+/**
+ * Register a new user.
+ * Returns { ok: true } on success or { ok: false, detail: string } on error.
+ */
+export async function registerUser(
+  user: any
+): Promise<{ ok: boolean; detail?: string }> {
   try {
     const res = await fetch(`${BACKEND_URL}/auth/signup`, {
-      ...fetchConfig,
       method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
-    });
-    return res.ok;
+    })
+    const data = await res.json()
+    if (!res.ok) {
+      return { ok: false, detail: data?.detail || "Registration failed" }
+    }
+    // signup auto-logs in via HttpOnly cookie; also save user cache
+    if (data?.id) saveUser(data)
+    return { ok: true }
   } catch (err) {
-    console.error("Signup failed", err);
-    return false;
+    console.error("Signup failed", err)
+    return { ok: false, detail: "Server not reachable" }
   }
 }
 
-export async function loginUser(credentials: any): Promise<boolean> {
+/**
+ * Login an existing user.
+ * Saves the access token and user to localStorage.
+ * Returns { ok: true } on success or { ok: false, detail: string } on error.
+ */
+export async function loginUser(
+  credentials: any
+): Promise<{ ok: boolean; detail?: string }> {
   try {
     const res = await fetch(`${BACKEND_URL}/auth/login`, {
-      ...fetchConfig,
       method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
-    });
-    return res.ok;
+    })
+    const data = await res.json()
+    if (!res.ok) {
+      return { ok: false, detail: data?.detail || "Invalid credentials" }
+    }
+    // Backend may return { message, user, access_token? }
+    if (data?.access_token) {
+      saveToken(data.access_token)
+    }
+    if (data?.user) {
+      saveUser(data.user)
+      setLocalUser(data.user as User)
+    }
+    return { ok: true }
   } catch (err) {
-    console.error("Login failed", err);
-    return false;
+    console.error("Login failed", err)
+    return { ok: false, detail: "Server not reachable" }
   }
 }

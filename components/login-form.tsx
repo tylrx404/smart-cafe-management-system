@@ -1,88 +1,108 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Leaf, Mail, Lock, Loader2 } from "lucide-react"
+import { Leaf, Mail, Lock, Loader2, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CitySearch } from "./city-search"
 import { loginUser, registerUser } from "@/lib/storage"
-import type { User } from "@/lib/types"
 
 export function LoginForm() {
   const router = useRouter()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [role, setRole] = useState("user")
-  const [city, setCity] = useState<{ name: string; state: string; lat: number; lon: number } | null>(null)
+  const [city, setCity] = useState<{
+    name: string; state: string; lat: number; lon: number
+  } | null>(null)
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
   const [isLogin, setIsLogin] = useState(true)
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
 
+    if (loading) return;
+
+    setError("");
+    setSuccess("");
+
+    // ── Validation ──
     if (!email || !password) {
-      setError("Please enter email and password")
-      return
+      setError("Please enter your email and password.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
     }
 
     if (!isLogin && !city) {
-      setError("Please select your city for registration")
-      return
+      setError("Please select your city to register.");
+      return;
     }
 
-    setLoading(true)
-
-    let response;
+    setLoading(true);
 
     try {
+      let result;
+
       if (isLogin) {
-        response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+        // LOGIN
+        result = await loginUser({ email, password });
       } else {
-        response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            city: city!.name,
-            state: city!.state,
-            lat: city!.lat,
-            lon: city!.lon,
-            role: role,
-          }),
+        // REGISTER
+        result = await registerUser({
+          email,
+          password,
+          city: city!.name,
+          state: city!.state,
+          lat: city!.lat,
+          lon: city!.lon,
+          role,
         });
       }
 
-      const data = await response.json();
+      if (!result.ok) {
+        setError(result.detail || "Something went wrong.");
+        return;
+      }
 
-      console.log("🔥 BACKEND RESPONSE:", data);
+      setSuccess(
+        isLogin
+          ? "Login successful 🚀 Redirecting..."
+          : "Account created 🎉 Redirecting..."
+      );
 
-      if (response.ok) {
+      setTimeout(() => {
         router.push("/dashboard");
+      }, 1000);
+
+    } catch (err: any) {
+      console.error("Auth error:", err);
+
+      if (err.message) {
+        setError(err.message);
       } else {
-        setError(data.detail || "Something went wrong");
+        setError("Server error. Please try again.");
       }
 
-    } catch (err) {
-      console.error("ERROR:", err);
-      setError("Server not reachable");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    setLoading(false)
+  const switchMode = () => {
+    setIsLogin(!isLogin)
+    setError("")
+    setSuccess("")
   }
 
   return (
@@ -104,11 +124,10 @@ export function LoginForm() {
             <p className="text-muted-foreground mt-2">Green Technology Intelligence Platform</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+            {/* Email */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground/80">
-                Email
-              </Label>
+              <Label htmlFor="email" className="text-foreground/80">Email</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -116,29 +135,33 @@ export function LoginForm() {
                   type="email"
                   placeholder="you@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.trim())}
                   className="pl-10 bg-background/50 border-white/20 focus:border-emerald-500/50"
+                  autoComplete="email"
+                  disabled={loading}
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground/80">
-                Password
-              </Label>
+              <Label htmlFor="password" className="text-foreground/80">Password</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder={isLogin ? "Enter your password" : "Min. 6 characters"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 bg-background/50 border-white/20 focus:border-emerald-500/50"
+                  autoComplete={isLogin ? "current-password" : "new-password"}
+                  disabled={loading}
                 />
               </div>
             </div>
 
+            {/* Registration-only fields */}
             {!isLogin && (
               <>
                 <div className="space-y-2">
@@ -146,7 +169,8 @@ export function LoginForm() {
                   <select
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    className="flex h-10 w-full rounded-md border border-input bg-background/50 border-white/20 focus:border-emerald-500/50 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={loading}
+                    className="flex h-10 w-full rounded-md border border-input bg-background/50 border-white/20 focus:border-emerald-500/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <option value="user" className="bg-slate-900">User</option>
                     <option value="admin" className="bg-slate-900">Admin</option>
@@ -158,22 +182,47 @@ export function LoginForm() {
                   <p className="text-xs text-muted-foreground mb-2">
                     Search and select your city. All dashboards will use this location.
                   </p>
-                  <CitySearch onSelect={setCity} selected={city ? { name: city.name, state: city.state } : null} />
+                  <CitySearch
+                    onSelect={setCity}
+                    selected={city ? { name: city.name, state: city.state } : null}
+                  />
                 </div>
               </>
             )}
 
-            {error && <p className="text-sm text-red-400 text-center">{error}</p>}
+            {/* Error Banner */}
+            {error && (
+              <div
+                role="alert"
+                className="flex items-start gap-2 rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-sm text-red-400"
+              >
+                <span className="mt-0.5 shrink-0">⚠️</span>
+                <span>{error}</span>
+              </div>
+            )}
 
+            {/* Success Banner */}
+            {success && (
+              <div
+                role="status"
+                className="flex items-center gap-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-4 py-3 text-sm text-emerald-400"
+              >
+                <CheckCircle className="h-4 w-4 shrink-0" />
+                <span>{success}</span>
+              </div>
+            )}
+
+            {/* Submit Button */}
             <Button
               type="submit"
+              id={isLogin ? "btn-sign-in" : "btn-sign-up"}
               className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-xl hover:shadow-emerald-500/30"
               disabled={loading}
             >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {isLogin ? "Signing in..." : "Creating account..."}
+                  {isLogin ? "Signing in…" : "Creating account…"}
                 </>
               ) : (
                 isLogin ? "Sign In" : "Sign Up"
@@ -181,19 +230,22 @@ export function LoginForm() {
             </Button>
           </form>
 
+          {/* Switch mode */}
           <div className="mt-6 text-center">
             <button
-              onClick={() => {
-                setIsLogin(!isLogin)
-                setError("")
-              }}
+              type="button"
+              onClick={switchMode}
               className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
             >
-              {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
+              {isLogin
+                ? "Don't have an account? Sign Up"
+                : "Already have an account? Sign In"}
             </button>
           </div>
 
-          <p className="text-center text-xs text-muted-foreground mt-6">Your gateway to sustainable living</p>
+          <p className="text-center text-xs text-muted-foreground mt-6">
+            Your gateway to sustainable living
+          </p>
         </div>
       </div>
     </div>
