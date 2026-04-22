@@ -129,13 +129,21 @@ app = FastAPI(
     version="1.0.0",
 )
 
-from fastapi.middleware.cors import CORSMiddleware
+# ── CORS ─────────────────────────────────────────────────────────────────────
+# NOTE: allow_origins=["*"] + allow_credentials=True is INVALID per the CORS
+# spec and will cause FastAPI to silently drop all CORS headers.
+# Always use explicit origins when credentials (cookies / Authorization) are used.
+CORS_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://ecopluse-nine.vercel.app",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # 🔥 TEMP FIX
-    allow_credentials=False,
-    allow_methods=["*"],
+    allow_origins=CORS_ORIGINS,
+    allow_credentials=True,       # required for Authorization / cookie headers
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
 )
 
