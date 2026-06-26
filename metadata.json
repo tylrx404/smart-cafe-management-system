@@ -1,0 +1,7 @@
+{
+  "name": "CafeOS - Smart Cafe Management",
+  "description": "A modern, synchronized cafe management prototype connecting Customers, Kitchen, and Admin via a shared local state for hackathon demos.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

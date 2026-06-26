@@ -1,0 +1,131 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "role": "admin",
+      "name": "Admin User",
+      "created_at": "2026-01-24T15:05:13.470Z",
+      "pin_hash": "$2a$10$zScuL6wwjd4/OLC1qn5GBefZEJpsgqmN7GVXPKYStco4UEvNEHaiO"
+    },
+    {
+      "id": 2,
+      "role": "kitchen",
+      "name": "Chef",
+      "created_at": "2026-01-24T15:05:13.470Z",
+      "pin_hash": "$2a$10$GTmlcBthc17qVeXP2ecEauOwycyL5PafGXX0ksLKShNcS7H/yFZuW"
+    },
+    {
+      "id": 3,
+      "role": "customer",
+      "name": "Customer 1",
+      "created_at": "2026-01-24T15:05:13.470Z"
+    },
+    {
+      "id": null,
+      "name": "one",
+      "role": "customer",
+      "password_hash": "$2a$10$DGXw85NjkgK3XGpTU82VyOlHhjmg5HiUga1uzRKFrWghzrj4WqdSC",
+      "created_at": "2026-01-25T02:00:58.080Z"
+    },
+    {
+      "id": 0,
+      "name": "pruthvi",
+      "role": "customer",
+      "password_hash": "$2a$10$.cDV0b5Y0HFBjhsOXma1depwx6bfZnzL.iN1P2Sc8pdlGpSLrFdm.",
+      "created_at": "2026-01-25T02:05:38.864Z"
+    },
+    {
+      "id": 1,
+      "name": "mrunal",
+      "role": "customer",
+      "password_hash": "$2a$10$J6QP2syCgWwqm7/WiEyrsOzAj1QvYQ/zi5/ZTK1UFwvzUBgmlqGJS",
+      "created_at": "2026-01-25T03:09:04.818Z"
+    },
+    {
+      "id": 2,
+      "name": "soham",
+      "role": "customer",
+      "password_hash": "$2a$10$NAoZ2bWz1FID.DOlD1MhGujKY56WYxhhAO4x1pFnRurjyjpj847qy",
+      "created_at": "2026-01-25T03:10:33.934Z"
+    },
+    {
+      "id": 3,
+      "name": "neel",
+      "role": "customer",
+      "password_hash": "$2a$10$uM3omkxoxO51aupDkK8UV.gEOuPzF3KigeLLlOC//r0lp3L7Bi832",
+      "created_at": "2026-01-25T04:15:32.688Z"
+    },
+    {
+      "id": 4,
+      "name": "neela",
+      "role": "customer",
+      "password_hash": "$2a$10$tLNNlH4.UJvryy.GONSrmOsr6BKD7LoiERDiP9gq/OqMZxIIkRvTC",
+      "created_at": "2026-01-25T04:21:01.657Z"
+    },
+    {
+      "id": 5,
+      "name": "alex",
+      "role": "customer",
+      "password_hash": "$2a$10$0T188ZUlpwgSddDXl4awDeKE55JF2alAqQXJ.81ke44wqZMG1iWzO",
+      "created_at": "2026-01-25T04:53:05.681Z"
+    },
+    {
+      "id": 6,
+      "name": "alex12",
+      "role": "customer",
+      "password_hash": "$2a$10$5jb5B4RsSRk5cvl0fuKkPum6ehsd9Rq.RpvhI3VVrQDeTtA/4yixC",
+      "created_at": "2026-01-25T04:56:29.556Z"
+    },
+    {
+      "id": 7,
+      "name": "alex123",
+      "role": "customer",
+      "password_hash": "$2a$10$Kf8STfS09avDIfzz.zlSieRoRMp/O4QnhdZfmGRC58NxzTsugZ57i",
+      "created_at": "2026-01-25T04:57:11.538Z"
+    },
+    {
+      "id": 8,
+      "name": "Test User",
+      "role": "customer",
+      "password_hash": "$2a$10$H44dekag6rgrS/.aEx84y.9xT0yL5T7PEQ.ZjF5133m.LNkRM0l9O",
+      "created_at": "2026-01-25T05:30:11.747Z"
+    }
+  ],
+  "tables": [
+    {
+      "id": 1,
+      "table_number": 1,
+      "status": "empty",
+      "created_at": "2026-01-24T15:05:13.469Z"
+    },
+    {
+      "id": 2,
+      "table_number": 2,
+      "status": "empty",
+      "created_at": "2026-01-24T15:05:13.470Z"
+    },
+    {
+      "id": 3,
+      "table_number": 3,
+      "status": "empty",
+      "created_at": "2026-01-24T15:05:13.470Z"
+    },
+    {
+      "id": 4,
+      "table_number": 4,
+      "status": "empty",
+      "created_at": "2026-01-24T15:05:13.470Z"
+    },
+    {
+      "id": 5,
+      "table_number": 5,
+      "status": "empty",
+      "created_at": "2026-01-24T15:05:13.470Z"
+    }
+  ],
+  "orders": [],
+  "payments": [],
+  "nextOrderId": 1,
+  "nextPaymentId": 1,
+  "nextUserId": 9
+}
