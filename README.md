@@ -1,20 +1,40 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+☕ Smart Cafe Management System
+Digital Point of Sale & Cafe Operations Platform
 
-# Run and deploy your AI Studio app
+🏆 Developed during the Adani × Odoo National Hackathon
 
-This contains everything you need to run your app locally.
+A modern full-stack restaurant management platform that digitizes cafe operations through secure authentication, order management, kitchen workflow automation, payment tracking, analytics, and intelligent menu recommendations.
 
-View your app in AI Studio: https://ai.studio/apps/temp/1
+📖 Overview
 
-## Run Locally
+Traditional cafes often rely on manual workflows for taking orders, managing tables, and coordinating between customers, kitchen staff, and administrators. These processes can lead to delays, order errors, and limited operational insights.
 
-**Prerequisites:**  Node.js
+The Smart Cafe Management System provides a centralized digital platform that streamlines the complete cafe workflow while improving efficiency, security, and customer experience.
 
+🚀 Problem Statement
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Modern cafeterias require:
+
+Faster order processing
+Digital customer experience
+Efficient kitchen management
+Secure staff authentication
+Business analytics
+Better operational visibility
+
+Most small and medium cafes still depend on manual processes that increase service time and reduce operational efficiency.
+
+💡 Solution
+
+The platform connects customers, kitchen staff, and administrators through a unified digital system.
+
+Key capabilities include:
+
+Secure customer authentication
+Digital ordering system
+Kitchen workflow management
+Order tracking
+Table management
+Payment management
+Dashboard analytics
+Intelligent food recommendations
