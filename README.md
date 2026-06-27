@@ -38,3 +38,21 @@ Table management
 Payment management
 Dashboard analytics
 Intelligent food recommendations
+
+🏗️ System Architecture
+                      Customer
+                          │
+                          ▼
+              React + TypeScript Frontend
+                          │
+                    REST API Requests
+                          ▼
+               Express.js Backend Server
+        ┌──────────────┼───────────────┐
+        ▼              ▼               ▼
+ JWT Authentication  SQLite DB   Recommendation Engine
+        │              │               │
+        └──────────────┴───────────────┘
+                          │
+                          ▼
+             Admin & Kitchen Dashboards
