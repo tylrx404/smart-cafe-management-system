@@ -39,29 +39,32 @@ Payment management
 Dashboard analytics
 Intelligent food recommendations
 
-🏗️ System Architecture
-                      Customer
-                          │
-                          ▼
-              React + TypeScript Frontend
-                          │
-                    REST API Requests
-                          ▼
-               Express.js Backend Server
-        ┌──────────────┼───────────────┐
-        ▼              ▼               ▼
- JWT Authentication  SQLite DB   Recommendation Engine
-        │              │               │
-        └──────────────┴───────────────┘
-                          │
-                          ▼
-             Admin & Kitchen Dashboards
+## 🏗️ System Architecture
+
+```text
+                    Customer
+                        │
+                        ▼
+          React + TypeScript Frontend
+                        │
+                 REST API Requests
+                        ▼
+             Express.js Backend
+      ┌──────────┼──────────┐
+      ▼          ▼          ▼
+ Authentication SQLite DB Recommendation
+      │          │         Engine
+      └──────────┴──────────┘
+               │
+               ▼
+     Admin & Kitchen Dashboard
+```
 
 ✨ Features
 👤 Customer
-Secure Signup & Login
-Browse Digital Menu
-Place Orders
+-Secure Signup & Login
+-Browse Digital Menu
+-Place Orders
 View Order History
 Intelligent Menu Recommendations
 Personalized Dashboard
@@ -92,12 +95,13 @@ Table Status
 Payment Overview
 Customer Insights
 🛠️ Tech Stack
-Frontend
-React
-TypeScript
-Vite
-React Router
-Context API
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Context API
 Backend
 Node.js
 Express.js
