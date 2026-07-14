@@ -60,57 +60,95 @@ Intelligent food recommendations
      Admin & Kitchen Dashboard
 ```
 
-✨ Features
-👤 Customer
--Secure Signup & Login
--Browse Digital Menu
--Place Orders
-View Order History
-Intelligent Menu Recommendations
-Personalized Dashboard
-👨‍🍳 Kitchen Staff
-Kitchen Display System
-Live Incoming Orders
-Update Order Status
-Order Queue Management
-👨‍💼 Administrator
-Dashboard Analytics
-Revenue Overview
-Order Management
-Table Management
-Payment Monitoring
-Business Insights
-🔒 Security Features
-JWT Authentication
-Password Hashing using bcrypt
-PIN-based Staff Authentication
-Role-Based Access Control
-Protected API Routes
-Secure Session Management
-📊 Dashboard Features
-Revenue Analytics
-Order Statistics
-Active Orders
-Table Status
-Payment Overview
-Customer Insights
-🛠️ Tech Stack
-### Frontend
+# ✨ Features
 
-- React
-- TypeScript
-- Vite
-- React Router
-- Context API
-Backend
-Node.js
-Express.js
-Database
-SQLite
-Authentication
-JWT
-bcrypt
-Development Tools
-npm
-Git
-GitHub
+## 👤 Customer
+
+- 🔐 Secure Signup & Login
+- 📖 Browse Digital Menu
+- 🛒 Place Orders
+- 📜 View Order History
+- 🍽️ Intelligent Menu Recommendations
+- 👤 Personalized Dashboard
+
+---
+
+## 👨‍🍳 Kitchen Staff
+
+- 🍳 Kitchen Display System (KDS)
+- 📥 Live Incoming Orders
+- 🔄 Update Order Status
+- 📋 Order Queue Management
+
+---
+
+## 👨‍💼 Administrator
+
+- 📊 Dashboard Analytics
+- 💰 Revenue Overview
+- 🛒 Order Management
+- 🪑 Table Management
+- 💳 Payment Monitoring
+- 📈 Business Insights
+
+---
+
+# 🔒 Security Features
+
+- 🔑 JWT Authentication
+- 🔐 Password Hashing using **bcrypt**
+- 🔢 PIN-based Staff Authentication
+- 👥 Role-Based Access Control (RBAC)
+- 🛡️ Protected API Routes
+- ⏳ Secure Session Management
+
+---
+
+# 📊 Dashboard Features
+
+- 💹 Revenue Analytics
+- 📦 Order Statistics
+- 🔥 Active Orders Monitoring
+- 🪑 Live Table Status
+- 💳 Payment Overview
+- 👥 Customer Insights
+
+---
+
+# 🛠️ Tech Stack
+
+## 💻 Frontend
+
+- ⚛️ React
+- 🟦 TypeScript
+- ⚡ Vite
+- 🧭 React Router
+- 🌐 Context API
+
+---
+
+## ⚙️ Backend
+
+- 🟢 Node.js
+- 🚀 Express.js
+
+---
+
+## 🗄️ Database
+
+- 💾 SQLite
+
+---
+
+## 🔐 Authentication
+
+- 🔑 JSON Web Tokens (JWT)
+- 🔒 bcrypt Password Hashing
+
+---
+
+## 🛠️ Development Tools
+
+- 📦 npm
+- 🌿 Git
+- 🐙 GitHub
