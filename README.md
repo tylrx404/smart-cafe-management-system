@@ -147,6 +147,28 @@ Intelligent food recommendations
 
 ---
 
+## 📂 Project Structure
+
+```text
+smart-cafe-management-system/
+│
+├── backend/                # Express.js backend
+│   ├── db/                 # SQLite database
+│   ├── middleware/         # Authentication middleware
+│   ├── routes/             # API routes
+│   └── server.js
+│
+├── components/             # Reusable React components
+├── config/                 # Configuration files
+├── store/                  # Context API state management
+├── utils/                  # Utility functions & recommendation engine
+├── views/                  # Customer, Admin & Kitchen dashboards
+│
+├── App.tsx
+├── package.json
+└── README.md
+```
+
 ## 🛠️ Development Tools
 
 - 📦 npm
