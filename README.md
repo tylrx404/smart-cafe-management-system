@@ -174,3 +174,38 @@ smart-cafe-management-system/
 - 📦 npm
 - 🌿 Git
 - 🐙 GitHub
+
+## 🔄 Application Workflow
+
+```text
+             Customer
+                 │
+                 ▼
+          Login / Register
+                 │
+                 ▼
+          Browse Digital Menu
+                 │
+                 ▼
+             Place Order
+                 │
+                 ▼
+          Express.js Backend
+                 │
+      ┌──────────┴──────────┐
+      ▼                     ▼
+ SQLite Database      Recommendation Engine
+      │                     │
+      └──────────┬──────────┘
+                 ▼
+        Kitchen Dashboard
+                 │
+                 ▼
+       Update Order Status
+                 │
+                 ▼
+         Customer Dashboard
+                 │
+                 ▼
+         Admin Analytics
+```
